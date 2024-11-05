@@ -1,39 +1,51 @@
-<nav class="navbar navbar-dark">
-               <div class="container">
-                  <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                  <a class="navbar-brand" href="index.php"> Food Ordering System </a>
-                  <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
-                     <ul class="nav navbar-nav">
-                        <li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                     
-                        <li class="nav-item"> <a class="nav-link" href="food_results.php?pageno=1">Food Menu</a> </li>
+ <div class="row border-bottom">
+        <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+           
+        </div>
+ <p style="font-size: 20px;padding-top:1%" ><strong>Food Ordering System!!</strong></p>
+        
+            <ul class="nav navbar-top-links navbar-right">
+                                <?php
+$ret1=mysqli_query($con,"select tbluser.FirstName,tblorderaddresses.ID,tblorderaddresses.Ordernumber from tblorderaddresses join tbluser on tbluser.ID=tblorderaddresses.UserId where tblorderaddresses.OrderFinalStatus is null");
+$num=mysqli_num_rows($ret1);
 
+?>   
+                
+                <li class="dropdown">
+                    <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell"></i>  <span class="label label-primary"><?php echo $num;?></span>
+                    </a>
 
-  <?php if (strlen($_SESSION['fosuid']==0)) {?>                      
-<li class="nav-item"> <a class="nav-link" href="registration.php">Sign up</a> </li>
-<li class="nav-item"> <a class="nav-link" href="login.php">Sign in</a>
-<li class="nav-item"> <a class="nav-link" href="track-order-on.php">Track Order</a> </li> 
-<?php } ?>
-
- <?php if (strlen($_SESSION['fosuid']>0)) {?>
-                            <li class="nav-item"><a class="nav-link" href="my-order.php" style="color: red"><strong> My Orders</strong> </a> </li>
-                        <li class="nav-item"><a class="nav-link" href="cart.php" style="color: red"><strong> Cart</strong> </a> </li>
-                        <?php } ?>
-
-
-
-                        <li class="nav-item dropdown">
-                           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">My Account</a>
-                           <div class="dropdown-menu">
-                              <a class="dropdown-item" href="changepassword.php">Setting</a> <a class="dropdown-item" href="profile.php">Profile</a>  
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="logout.php">Logout</a>
-                           </div>
-                                                
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="mailbox.html" class="dropdown-item">
+                                <div>
+                                 
+                                    <?php if($num>0){
+while($result=mysqli_fetch_array($ret1))
+{
+            ?>
+            <a class="dropdown-item" href="viewfoodorder.php?orderid=<?php echo $result['Ordernumber'];?>">   <i class="fa fa-envelope fa-fw"></i>  #<?php echo $result['Ordernumber'];?> Order Received from <?php echo $result['FirstName'];?></a>
+<?php }} else {?>
+    <a class="dropdown-item" href="view-allorderfood.php">No New Order Received</a>
+        <?php } ?>
+                                </div>
+                            </a>
                         </li>
 
-                       
-                     </ul>
-                  </div>
-               </div>
-            </nav>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="logout.php">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+                
+            </ul>
+
+        </nav>
+        </div>
